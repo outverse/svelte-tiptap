@@ -13,6 +13,12 @@ All notable changes to this project will be documented in this file.
 > - Documentation
 > - Internal
 
+## Features v1.1.3 (2023-10-05)
+
+- add new isEditable prop to enable reacting to editable state
+
+#### Bug Fixes
+
 ## v1.1.2 (2023-07-24)
 
 #### Bug Fixes
