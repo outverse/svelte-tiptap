@@ -1,4 +1,4 @@
-import { NodeView, Editor, type DecorationWithType } from '@tiptap/core';
+import { NodeView, Editor, type DecorationWithType, type EditorEvents } from '@tiptap/core';
 import type { NodeViewRenderer, NodeViewProps, NodeViewRendererOptions } from '@tiptap/core';
 import type { Decoration } from '@tiptap/pm/view';
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model';
@@ -20,21 +20,27 @@ export interface SvelteNodeViewRendererOptions extends NodeViewRendererOptions {
   as?: string;
 }
 
-type SvelteComponentRaw = typeof SvelteComponent<Partial<NodeViewProps>>;
+export interface SvelteNodeViewProps extends NodeViewProps {
+  isEditable: boolean;
+}
+
+type SvelteComponentRaw = typeof SvelteComponent<Partial<SvelteNodeViewProps>>;
 
 class SvelteNodeView extends NodeView<SvelteComponentRaw, Editor, SvelteNodeViewRendererOptions> {
   renderer!: SvelteRenderer;
-
   contentDOMElement!: HTMLElement | null;
+  isEditable = false;
 
   override mount(): void {
     const Component = this.component;
+    this.isEditable = this.editor?.isEditable;
 
-    const props: NodeViewProps = {
+    const props: SvelteNodeViewProps = {
       editor: this.editor,
       node: this.node,
       decorations: this.decorations,
       selected: false,
+      isEditable: this.isEditable,
       extension: this.extension,
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
@@ -60,8 +66,9 @@ class SvelteNodeView extends NodeView<SvelteComponentRaw, Editor, SvelteNodeView
     target.classList.add(`node-${this.node.type.name}`);
 
     this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
     this.editor.on('selectionUpdate', this.handleSelectionUpdate);
-
+    this.editor.on('update', this.handleUpdate);
     const svelteComponent: SvelteComponent = new Component({
       target,
       props,
@@ -97,6 +104,14 @@ class SvelteNodeView extends NodeView<SvelteComponentRaw, Editor, SvelteNodeView
     }
 
     return this.contentDOMElement;
+  }
+
+  handleUpdate({ editor }: EditorEvents['update']) {
+    // propagate isEditable only if editable state has changed
+    if (this.isEditable !== editor?.isEditable) {
+      this.isEditable = editor?.isEditable;
+      this.renderer.updateProps({ isEditable: this.isEditable });
+    }
   }
 
   handleSelectionUpdate() {
@@ -156,6 +171,7 @@ class SvelteNodeView extends NodeView<SvelteComponentRaw, Editor, SvelteNodeView
   destroy(): void {
     this.renderer.destroy();
     this.editor.off('selectionUpdate', this.handleSelectionUpdate);
+    this.editor.off('update', this.handleUpdate);
     this.contentDOMElement = null;
   }
 }

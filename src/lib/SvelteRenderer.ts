@@ -1,5 +1,5 @@
 import type { SvelteComponent } from 'svelte';
-import type { NodeViewProps } from '@tiptap/core';
+import type { SvelteNodeViewProps } from './SvelteNodeViewRenderer';
 
 interface RendererOptions {
   element: HTMLElement;
@@ -17,7 +17,7 @@ class SvelteRenderer {
     this.dom.classList.add('svelte-renderer');
   }
 
-  updateProps(props: Partial<NodeViewProps>): void {
+  updateProps(props: Partial<SvelteNodeViewProps>): void {
     this.component.$set(props);
   }
 
