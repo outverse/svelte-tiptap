@@ -41,7 +41,7 @@
     "test": "vitest",
     "e2e": "cypress open --e2e",
     "lint": "eslint . --ext .js,.ts,.svelte --ignore-path .gitignore",
-    "prepare": "is-ci || husky install",
+    "prepare": "is-ci || npm run build",
     "publish:npm": "npm publish"
   },
   "peerDependencies": {
