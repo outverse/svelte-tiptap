@@ -41,7 +41,7 @@
     "test": "vitest",
     "e2e": "cypress open --e2e",
     "lint": "eslint . --ext .js,.ts,.svelte --ignore-path .gitignore",
-    "prepare": "is-ci || npm run build",
+    "prepare": "npm run build",
     "publish:npm": "npm publish"
   },
   "peerDependencies": {
