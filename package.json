@@ -1,7 +1,7 @@
 {
   "name": "svelte-tiptap",
   "description": "Svelte components for tiptap v2",
-  "version": "1.1.4-alpha3",
+  "version": "1.1.4-alpha4",
   "author": "sibiraj-s",
   "license": "MIT",
   "repository": "https://github.com/sibiraj-s/svelte-tiptap.git",
@@ -41,7 +41,7 @@
     "test": "vitest",
     "e2e": "cypress open --e2e",
     "lint": "eslint . --ext .js,.ts,.svelte --ignore-path .gitignore",
-    "prepare": "npm run build",
+    "prepare": "is-ci || npm run build",
     "publish:npm": "npm publish"
   },
   "peerDependencies": {
