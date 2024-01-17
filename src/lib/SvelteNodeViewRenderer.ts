@@ -2,10 +2,11 @@ import { NodeView, Editor, type DecorationWithType, type EditorEvents } from '@t
 import type { NodeViewRenderer, NodeViewProps, NodeViewRendererOptions } from '@tiptap/core';
 import type { Decoration } from '@tiptap/pm/view';
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model';
-import type { SvelteComponent } from 'svelte';
+import { type SvelteComponent } from 'svelte';
 
 import SvelteRenderer from './SvelteRenderer';
 import { TIPTAP_NODE_VIEW } from './context';
+import { tree } from './createEditor';
 
 interface RendererUpdateProps {
   oldNode: ProseMirrorNode;
@@ -64,7 +65,7 @@ class SvelteNodeView extends NodeView<SvelteComponentRaw, Editor, SvelteNodeView
       this.contentDOMElement.style.whiteSpace = 'inherit';
     }
 
-    const context = new Map();
+    const context = new Map(tree.context);
     context.set(TIPTAP_NODE_VIEW, {
       onDragStart: this.onDragStart.bind(this),
     });

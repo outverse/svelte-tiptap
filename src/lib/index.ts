@@ -1,6 +1,6 @@
 export * from './Editor';
 
-export { default as createEditor } from './createEditor';
+export { default as createEditor, setEditorContext } from './createEditor';
 export { default as SvelteNodeViewRenderer } from './SvelteNodeViewRenderer';
 export { default as SvelteRenderer } from './SvelteRenderer';
 

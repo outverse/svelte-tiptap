@@ -13,7 +13,6 @@ class SvelteRenderer {
   constructor(component: SvelteComponent, { element }: RendererOptions) {
     this.component = component;
     this.dom = element;
-
     this.dom.classList.add('svelte-renderer');
   }
 
