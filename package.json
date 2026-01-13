@@ -32,7 +32,7 @@
   "scripts": {
     "dev": "vite dev --port 3009",
     "build:demo": "vite build",
-    "build": "pnpm run build:demo && pnpm run package",
+    "build": "npm run build:demo && npm run package",
     "preview": "vite preview",
     "package": "svelte-kit sync && svelte-package && publint",
     "prepublishOnly": "is-ci || npm run build",
@@ -41,7 +41,7 @@
     "test": "vitest",
     "e2e": "cypress open --e2e",
     "lint": "eslint . --ext .js,.ts,.svelte --ignore-path .gitignore",
-    "prepare": "pnpm run build",
+    "prepare": "npm run build",
     "publish:npm": "npm publish"
   },
   "peerDependencies": {
